@@ -3,7 +3,38 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 public class TaskService {
-    public void viewTasks(){
+    public void markComplete(int id){
+        String query="UPDATE tasks SET completed = true WHERE id = ?";
+        try (
+            Connection conn=DBConnection.getConnection();
+            PreparedStatement ps=conn.prepareStatement(query);
+         ){
+            ps.setInt(1,id);
+            ps.executeUpdate();
+            System.out.println("Task marked Completed!");
+         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteTask(int id){
+        String query="DELETE FROM tasks WHERE id = ?";
+        try (
+            Connection conn=DBConnection.getConnection();
+            PreparedStatement ps=conn.prepareStatement(query);
+        )
+        {
+            ps.setInt(1,id);
+            ps.executeUpdate();
+            System.out.println("Task Deleted!");
+        }
+            
+         catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void viewTasks(){;
+
         String query="SELECT * FROM tasks";
         try (
             Connection conn=DBConnection.getConnection();
